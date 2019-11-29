@@ -52,7 +52,7 @@ if(refreshed)
 }
 ```
 
-For ease of use the services also support IConfiguration as constructor parameter
+For ease of use the services also support `IConfiguration` as constructor parameter
 *appsettings.json*
 ```
 figo: {
