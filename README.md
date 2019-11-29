@@ -1,4 +1,4 @@
-﻿# FigoClientNet
+﻿# FigoClient.NET
 
 This is an API client to access your data in [figo.io](https://www.figo.io/). It is written as .NET Standard library to be used in .NET Framework projects and .NET Core projects as well. 
 
