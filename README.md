@@ -4,8 +4,8 @@ This is an API client to access your data in [figo.io](https://www.figo.io/). It
 
 ## Status
 
-![Build status](https://travis-ci.org/martinhey/BillomatNet.svg?branch=master)
-[![NuGet](https://img.shields.io/nuget/dt/TaurusSoftware.BillomatNet.svg)](https://www.nuget.org/packages/TaurusSoftware.BillomatNet/)
+![Build status](https://travis-ci.org/paulbecker/FigoClientNet.svg?branch=master)
+[![NuGet](https://img.shields.io/nuget/dt/PaulBecker.FigoClientNet.svg)](https://www.nuget.org/packages/TaurusSoftware.BillomatNet/)
 
 ## Usage
 
