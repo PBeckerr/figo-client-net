@@ -16,7 +16,7 @@ FigoClient.NET is divided into several services, which correspond to the section
 Every service can be instanciated providing the credentials to authorize against your instance. 
 You need to store and maybe refresh the AccessToken, `AccessTokenService` provides a `CheckAndRevalidateIfNeededAsync`-method to help you with the management of the lifetime of your `AccessToken`.
  
-*Sample 1 (login, a auth code can be used one time and the redirectUri has to be the same as the one used to request the authcode)*
+*Sample 1 (login, a auth code can be used only one time and the redirectUri has to be the same as the one used to request the authcode)*
 ```
 var config = new Configuration
 {
@@ -29,7 +29,7 @@ var accessTokenService = new AccessTokenService(config);
 var accessTokenDto = await accessTokenService.LoginAsync(myAuthCode, , myWorkflowRedirectUri);
 ```
 
-*Sample 2 (querying transactions for bank account)*
+*Sample 2 (querying transactions for a bank account)*
 ```
 var config = new Configuration
 {
@@ -69,4 +69,4 @@ successively. The project status will be updated with a change log when necessar
 
 ## Contribution
 
-Bug reports and pull requests are welcome on [GitHub](https://github.com/DevelappersGmbH/figo-client-net). Please check the [contribution guide](CONTRIBUTING.MD).This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to our [code of conduct](CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on [GitHub](https://github.com/PBeckerr/figo-client-net). Please check the [contribution guide](CONTRIBUTING.MD).This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to our [code of conduct](CODE_OF_CONDUCT.md).
