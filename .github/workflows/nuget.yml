@@ -16,7 +16,7 @@ jobs:
     - name: set environment variables
       uses: allenevans/set-env@v1.0.0
       with:
-        MY_ENV_VAR: $(date +%Y%m%d%H%M%S)
+        MY_ENV_VAR: date +"%m-%d-%Y-%H-%m"
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
