@@ -65,7 +65,7 @@ figo: {
 ## Project Status
 
 The REST-API itself contains a whole bunch of functionality and the wrapper will be updated periodically after figo.io changes their api. This wrapper is still under development and new functions will be added 
-successively. The project status will be updated with a change log when necessary.
+successively. <br>The project status will be updated with a change log when necessary.
 
 ## Contribution
 
