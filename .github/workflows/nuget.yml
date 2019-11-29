@@ -9,6 +9,6 @@ jobs:
       GETDATE: date +%Y%m%d%H%M%S,
       GETDATE2: $(date)
     steps:
-      - run: "echo $GITHUB_ACTION ${{env.GITHUB_ACTION}}."
+      - run: "echo $GITHUB_SHA ${{env.GITHUB_SHA}}."
       - run: "sleep 5"
       - run: "echo $GITHUB_ACTION ${{env.GITHUB_ACTION}}."
