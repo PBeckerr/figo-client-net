@@ -11,19 +11,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      VERSION: $(git describe --tags)
     steps:
     - uses: actions/checkout@v1
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 2.2.108
+    - run: echo "::set-env name=VERSION::$(git describe --tags)"
     - name: Build NuGet Package Core
-      run: dotnet pack ./figo-client/figo-client-core/figo-client-core.csproj --configuration Release -o NuGetPackages --version-suffix release-${{ env.VERSION }}
+      run: dotnet pack ./figo-client/figo-client-core/figo-client-core.csproj --configuration Release -o NuGetPackages --version-suffix release-$VERSION
     - name: Deploy NuGet Package Core
-      run: dotnet nuget push ./figo-client/figo-client-core/NuGetPackages/Figo.Client.Core.1.0.2-release-${{ env.VERSION }}.nupkg -k ${{ secrets.NUGET }} -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push ./figo-client/figo-client-core/NuGetPackages/Figo.Client.Core.1.0.2-release-$VERSION.nupkg -k ${{ secrets.NUGET }} -s https://api.nuget.org/v3/index.json
     - name: Build NuGet Package Client
-      run: dotnet pack ./figo-client/figo-client/figo-client.csproj --configuration Release -o NuGetPackages --version-suffix release-${{ env.VERSION }}
+      run: dotnet pack ./figo-client/figo-client/figo-client.csproj --configuration Release -o NuGetPackages --version-suffix release-$VERSION
     - name: Deploy NuGet Package Client
-      run: dotnet nuget push ./figo-client/figo-client/NuGetPackages/Figo.Client.1.0.2-release-${{ env.VERSION }}.nupkg -k ${{ secrets.NUGET }} -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push ./figo-client/figo-client/NuGetPackages/Figo.Client.1.0.2-release-$VERSION.nupkg -k ${{ secrets.NUGET }} -s https://api.nuget.org/v3/index.json
