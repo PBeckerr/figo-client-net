@@ -3,6 +3,7 @@ name: Pack and push
 on:
   push:
     paths:
+    - '**.yml'
     - '**.cs'
     - '**.csproj'
     - '**.nuspec'
