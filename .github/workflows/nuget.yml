@@ -3,7 +3,9 @@ name: Pack and push
 on:
   push:
     paths:
-    - '**.cs, **.csproj, **.nuspec'
+    - '**.cs'
+    - '**.csproj'
+    - '**.nuspec'
 
 jobs:
   build:
