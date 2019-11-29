@@ -9,6 +9,6 @@ jobs:
       GETDATE: date +%Y%m%d%H%M%S,
       GETDATE2: $(date)
     steps:
-      - run: "echo $GETDATE ${{env.GETDATE}}."
+      - run: "echo $GETDATE2 ${{env.GETDATE2}}."
       - run: "sleep 5"
-      - run: "echo $GETDATE ${{env.GETDATE}}."
+      - run: "echo $GETDATE2 ${{env.GETDATE2}}."
