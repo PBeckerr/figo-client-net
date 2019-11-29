@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Figo.Client</RootNamespace>
+    <AssemblyName>Figo.Client</AssemblyName>
+     <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="NuSpec\CI\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\figo-client-core\figo-client-core.csproj" />
+  </ItemGroup>
+
+</Project>

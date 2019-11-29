@@ -1,0 +1,28 @@
+﻿<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>$id$</id>
+    <summary>Wrapper for figo-net client</summary>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <version>$version$</version>
+    <description>DWrapper for figo-net client</description>
+    <authors>Develappers GmbH</authors>
+    <tags></tags>
+
+    <dependencies>
+      <dependency id="Microsoft.Extensions.Configuration" version="2.2.0" />
+      <dependency id="Figo.Client.Core" version="1.0.5-20191128-1" />
+    </dependencies>
+    <references>
+      <group>
+        <reference file="$id$.dll" />
+      </group>
+    </references>
+  </metadata>
+  <files>
+    <file src="..\..\bin\release\netstandard2.0\$id$.dll" target="lib\netcoreapp2.1" />
+    <file src="..\..\bin\release\netstandard2.0\$id$.dll" target="lib\netcoreapp2.2" />
+    <file src="..\..\bin\release\netstandard2.0\$id$.dll" target="lib\netstandard2.0" />
+  </files>
+</package>
