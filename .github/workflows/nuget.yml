@@ -1,14 +1,21 @@
-name: dotnet core - build
+name: Pack and push
 
 on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      GETDATE: date +%Y%m%d%H%M%S,
-      GETDATE2: $(date)
     steps:
-      - run: "echo $GITHUB_SHA ${{env.GITHUB_SHA}}."
-      - run: "sleep 5"
-      - run: "echo $GITHUB_ACTION ${{env.GITHUB_ACTION}}."
+    - uses: actions/checkout@v1
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 2.2.108
+    - name: Build NuGet Package Core
+      run: dotnet pack ./figo-client/figo-client-core/figo-client-core.csproj --configuration Release -o NuGetPackages --version-suffix release-$GITHUB_SHA
+    - name: Deploy NuGet Package Core
+      run: dotnet nuget push ./figo-client/figo-client-core/NuGetPackages/Figo.Client.Core.1.0.1-release-${{ env.GETDATE }}.nupkg -k $GITHUB_SHA -s https://api.nuget.org/v3/index.json
+    - name: Build NuGet Package Client
+      run: dotnet pack ./figo-client/figo-client/figo-client.csproj --configuration Release -o NuGetPackages --version-suffix release-$GITHUB_SHA
+    - name: Deploy NuGet Package Client
+      run: dotnet nuget push ./figo-client/figo-client/NuGetPackages/Figo.Client.1.0.1-release-$GITHUB_SHA.nupkg -k ${{ secrets.NUGET }} -s https://api.nuget.org/v3/index.json
