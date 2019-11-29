@@ -14,8 +14,8 @@ jobs:
     - name: Build NuGet Package Core
       run: dotnet pack ./figo-client/figo-client-core/figo-client-core.csproj --configuration Release -o NuGetPackages
     - name: Deploy NuGet Package Core
-      run: dotnet nuget push ./figo-client/figo-client-core/NuGetPackages/figo-client-core.1.0.0.nupkg -k ${{ NUGET }} -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push ./figo-client/figo-client-core/NuGetPackages/figo-client-core.1.0.0.nupkg -k ${{ secrets.NUGET }} -s https://api.nuget.org/v3/index.json
     - name: Build NuGet Package Client
       run: dotnet pack ./figo-client/figo-client/figo-client.csproj --configuration Release -o NuGetPackages
     - name: Deploy NuGet Package Client
-      run: dotnet nuget push ./figo-client/figo-client/NuGetPackages/figo-client.1.0.0.nupkg -k ${{ NUGET }} -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push ./figo-client/figo-client/NuGetPackages/figo-client.1.0.0.nupkg -k ${{ secrets.NUGET }} -s https://api.nuget.org/v3/index.json
