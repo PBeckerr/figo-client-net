@@ -9,8 +9,8 @@ on:
     - '**.nuspec'
 
 jobs:
-  build:
-    runs-on: windows-latest
+  version:
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - name: Bump version and push tag
@@ -18,6 +18,10 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GHPackagesToken }}
         REPO_OWNER: PBeckerr
+  build:
+    runs-on: windows
+    steps:
+    - uses: actions/checkout@v1
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
