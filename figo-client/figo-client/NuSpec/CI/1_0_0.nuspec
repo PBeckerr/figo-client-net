@@ -6,13 +6,13 @@
     <summary>Wrapper for figo-net client</summary>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <version>$version$</version>
-    <description>DWrapper for figo-net client</description>
+    <description>Wrapper for figo-net client</description>
     <authors>Develappers GmbH</authors>
     <tags></tags>
 
     <dependencies>
       <dependency id="Microsoft.Extensions.Configuration" version="2.2.0" />
-      <dependency id="Figo.Client.Core" version="1.0.5-20191128-1" />
+      <dependency id="Figo.Client.Core" version="1.0.1" />
     </dependencies>
     <references>
       <group>
