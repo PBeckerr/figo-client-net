@@ -5,7 +5,7 @@
     <id>$id$</id>
     <summary>Wrapper for figo-net client</summary>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <version></version>
+    <version>$version$</version>
     <description>Wrapper for figo-net client</description>
     <authors>Develappers GmbH</authors>
     <tags></tags>

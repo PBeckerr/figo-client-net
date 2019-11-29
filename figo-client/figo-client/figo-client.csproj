@@ -4,7 +4,6 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Figo.Client</RootNamespace>
     <AssemblyName>Figo.Client</AssemblyName>
-    <VersionPrefix>1.0.2</VersionPrefix>
      <LangVersion>7.3</LangVersion>
   </PropertyGroup>
 
