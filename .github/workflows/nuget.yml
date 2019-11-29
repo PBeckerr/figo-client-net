@@ -12,7 +12,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      DATE: date +"%m-%d-%Y-%H-%m"
+      DATE: $(date +"%m-%d-%Y-%H-%m")
     steps:
     - uses: actions/checkout@v1
     - name: Setup .NET Core
