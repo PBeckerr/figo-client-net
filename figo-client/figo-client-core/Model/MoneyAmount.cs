@@ -40,14 +40,7 @@ namespace Figo.Client.Core.Model
         /// <param name="value">The amount of money to be transfered. (required).</param>
         public MoneyAmount(Currency currency = default, decimal value = default)
         {
-            // to ensure "value" is required (not null)
-            if (value == null)
-            {
-                throw new InvalidDataException("value is a required property for MoneyAmount and cannot be null");
-            }
-
             this.Value = value;
-
             this.Currency = currency;
         }
 
@@ -83,7 +76,6 @@ namespace Figo.Client.Core.Model
                 ) &&
                 (
                     this.Value == input.Value ||
-                    this.Value != null &&
                     this.Value.Equals(input.Value)
                 );
         }
@@ -141,11 +133,7 @@ namespace Figo.Client.Core.Model
             {
                 var hashCode = 41;
                 hashCode = hashCode * 59 + this.Currency.GetHashCode();
-                if (this.Value != null)
-                {
-                    hashCode = hashCode * 59 + this.Value.GetHashCode();
-                }
-
+                hashCode = hashCode * 59 + this.Value.GetHashCode();
                 return hashCode;
             }
         }

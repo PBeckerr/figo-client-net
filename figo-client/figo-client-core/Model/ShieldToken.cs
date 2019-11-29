@@ -95,13 +95,6 @@ namespace Figo.Client.Core.Model
             this.Iss = iss ?? throw new InvalidDataException("iss is a required property for ShieldToken and cannot be null");
             this.Sub = sub ?? throw new InvalidDataException("sub is a required property for ShieldToken and cannot be null");
             this.Aud = aud ?? throw new InvalidDataException("aud is a required property for ShieldToken and cannot be null");
-
-            // to ensure "exp" is required (not null)
-            if (exp == null)
-            {
-                throw new InvalidDataException("exp is a required property for ShieldToken and cannot be null");
-            }
-
             this.Exp = exp;
             this.Jti = jti ?? throw new InvalidDataException("jti is a required property for ShieldToken and cannot be null");
 

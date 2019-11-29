@@ -66,16 +66,7 @@ namespace Figo.Client.Core.Model
             this.Name = name;
             this.Owner = owner;
             this.AutoSync = autoSync;
-            // use default value if no "savePin" provided
-            if (savePin == null)
-            {
-                this.SavePin = false;
-            }
-            else
-            {
-                this.SavePin = savePin;
-            }
-
+            this.SavePin = savePin;
             this.SupportedPayments = supportedPayments;
             this.Status = status;
         }
