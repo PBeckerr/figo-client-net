@@ -5,7 +5,7 @@
     <id>$id$</id>
     <summary>Figo.io Rest Client</summary>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <version>$version$</version>
+    <version></version>
     <description>Figo.io Rest Client</description>
     <authors>Develappers GmbH</authors>
     <tags></tags>
