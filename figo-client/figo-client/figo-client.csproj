@@ -5,7 +5,7 @@
     <RootNamespace>Figo.Client</RootNamespace>
     <AssemblyName>Figo.Client</AssemblyName>
     <VersionPrefix>1.0.2</VersionPrefix>
-     <LangVersion>7.1</LangVersion>
+     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
