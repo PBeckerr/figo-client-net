@@ -19,16 +19,25 @@ namespace Figo.Client
         {
         }
 
-        public async Task<PaymentReceipt> GetPaymentReceipt(AccessTokenDto token, string paymentId)
+        /// <summary>
+        ///     Get a payment receipt Get a payment receipt that indicates if the user has initiated the payment identified by
+        ///     payment-id. This call might return a 404 as long as the user is still being guided through
+        ///     the flow but has not yet executed the payment at the bank. The same holds true if the user aborts the flow.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="accessToken"></param>
+        /// <param name="paymentId"></param>
+        /// <returns>PaymentReceipt</returns>
+        public async Task<PaymentReceipt> GetPaymentReceipt(AccessTokenDto accessToken, string paymentId)
         {
-            if (token == null)
+            if (accessToken == null)
             {
-                throw new ArgumentNullException(nameof(token));
+                throw new ArgumentNullException(nameof(accessToken));
             }
 
-            if (!token.IsValid)
+            if (!accessToken.IsValid)
             {
-                throw new ArgumentException($"{nameof(token)} is expired.");
+                throw new ArgumentException($"{nameof(accessToken)} is expired.");
             }
 
             if (paymentId == null)
@@ -36,7 +45,7 @@ namespace Figo.Client
                 throw new ArgumentNullException(nameof(paymentId));
             }
 
-            this.Configuration.AccessToken = token.AccessToken;
+            this.Configuration.AccessToken = accessToken.AccessToken;
             var api = new VerificationApi(this.Configuration);
             return await api.GetPaymentReceiptAsync(paymentId).ConfigureAwait(false);
         }

@@ -119,6 +119,7 @@ namespace Figo.Client
         ///     Retrieve a single security associated to a specific account by its security-id.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="accessToken"></param>
         /// <param name="accountId"></param>
         /// <param name="securityId"></param>
         /// <returns>Security</returns>

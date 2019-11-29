@@ -105,6 +105,52 @@ namespace Figo.Client
                              listFilter?.IncludeStatistics).ConfigureAwait(false);
         }
 
+        /// <summary>
+        ///     List transactions Get a list of the transactions of all accounts. You can additionally constrain the amount of
+        ///     transactions being returned by using the query parameters described below as filters.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="accessToken"></param>
+        /// <param name="listFilter">
+        ///     (optional)
+        ///     count:
+        ///     Limit the number of returned items. In combination with the offset parameter this can be used to
+        ///     paginate the result list. (optional, default to 1000)
+        ///     offset:
+        ///     Skip this number of transactions in the response. In combination with the count parameter this can
+        ///     be used to paginate the result list. (optional, default to 0)
+        ///     since:
+        ///     Return only transactions after this date based on since_type. This parameter can either
+        ///     be a transaction ID or a date. Given at least one transaction matches the filter criterion, if provided as
+        ///     transaction ID the result will *not* contain this ID. If provided as ISO date, the result *will* contain this date.
+        ///     This behavior may change in the future. (optional)
+        ///     sinceType:
+        ///     This parameter defines how the parameter since will be interpreted. (optional,
+        ///     default to created)
+        ///     filter:
+        ///     Filter transactions by given key:value combination. Possible keys:    - date (maps to
+        ///     booked_at, please use ISO date here, not datetime)   - person (maps to payer/payee name)   - purpose
+        ///     - amount  Values are interpreted using wildcards: person:John Doe will match %John Doe%.
+        ///     (optional)
+        ///     includePending:
+        ///     This flag indicates whether pending transactions should be included in the response.
+        ///     Pending transactions are always included as a complete set, regardless of the since parameter. (optional, default
+        ///     to false)
+        ///     sort
+        ///     Determines whether results will be sorted in ascending or descending order. (optional)
+        ///     until:
+        ///     Return only transactions which were booked on or before this date. Please provide as ISO date. It
+        ///     is not possible to use the since_type semantics with until. (optional)
+        ///     includeStatistics:
+        ///     If true includes statistics on the returned transactions: maximum deposit,
+        ///     total deposits, maximum expense, total expenses.  (optional, default to false)
+        ///     filter:
+        ///     Filter transactions by given key:value combination. Possible keys:    - date (maps to
+        ///     booked_at, please use ISO date here, not datetime)   - person (maps to payer/payee name)   - purpose
+        ///     - amount  Values are interpreted using wildcards: person:John Doe will match %John Doe%.
+        ///     (optional)
+        /// </param>
+        /// <returns>TransactionList</returns>
         public async Task<TransactionList> GetAllAsync(AccessTokenDto accessToken, AccountListFilter listFilter = default)
         {
             if (accessToken == null)
@@ -135,6 +181,14 @@ namespace Figo.Client
                 listFilter?.IncludeStatistics).ConfigureAwait(false);
         }
 
+        /// <summary>
+        ///     Get transaction of account Retrieve the details of a single transaction by its ID associated to a specific account.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="accessToken"></param>
+        /// <param name="accountId"></param>
+        /// <param name="transactionId"></param>
+        /// <returns>Transaction</returns>
         public async Task<Transaction> GetDetailAsync(AccessTokenDto accessToken, string accountId, string transactionId)
         {
             if (accessToken == null)
@@ -164,6 +218,13 @@ namespace Figo.Client
                          .ConfigureAwait(false);
         }
 
+        /// <summary>
+        ///     Get transaction Retrieve the details of a single transaction by its ID.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="accessToken"></param>
+        /// <param name="transactionId"></param>
+        /// <returns>Transaction</returns>
         public async Task<Transaction> GetDetailAsync(AccessTokenDto accessToken, string transactionId)
         {
             if (accessToken == null)
