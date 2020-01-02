@@ -47,6 +47,15 @@ namespace Figo.Client.Core.Model
         public enum TypeEnum
         {
             /// <summary>
+            ///     Enum Transfer for value: Empty
+            /// </summary>
+            [EnumMember(Value = "")] Empty = -1,
+
+            /// <summary>
+            ///     Enum Transfer for value: Unknown
+            /// </summary>
+            [EnumMember(Value = "Unknown")] Unknown = 0,
+            /// <summary>
             ///     Enum Chargesorinterest for value: Charges or interest
             /// </summary>
             [EnumMember(Value = "Charges or interest")]
