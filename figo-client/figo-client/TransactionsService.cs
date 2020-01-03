@@ -7,6 +7,7 @@ using Figo.Client.Core.Model;
 using Figo.Client.Models;
 using Figo.Client.Models.Filter;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Figo.Client
 {
@@ -17,7 +18,7 @@ namespace Figo.Client
         {
         }
 
-        public TransactionsService(IConfiguration configuration) : base(configuration)
+        public TransactionsService(IConfiguration configuration, ILogger logger) : base(configuration, logger)
         {
         }
 
@@ -87,7 +88,7 @@ namespace Figo.Client
             }
 
             this.Configuration.AccessToken = accessToken.AccessToken;
-            var transactionsApi = new TransactionsApi(this.Configuration);
+            var transactionsApi = new TransactionsApi(this.Configuration, this.Logger);
             return await transactionsApi
                          .ListTransactionsOfAccountAsync(
                              accountId,
@@ -164,7 +165,7 @@ namespace Figo.Client
             }
 
             this.Configuration.AccessToken = accessToken.AccessToken;
-            var transactionsApi = new TransactionsApi(this.Configuration);
+            var transactionsApi = new TransactionsApi(this.Configuration, this.Logger);
             return await transactionsApi.ListTransactionsAsync(
                 null,
                 listFilter?.Filter,
@@ -212,7 +213,7 @@ namespace Figo.Client
             }
 
             this.Configuration.AccessToken = accessToken.AccessToken;
-            var transactionsApi = new TransactionsApi(this.Configuration);
+            var transactionsApi = new TransactionsApi(this.Configuration, this.Logger);
             return await transactionsApi
                          .GetTransctionOfAccountAsync(accountId, transactionId)
                          .ConfigureAwait(false);
@@ -243,7 +244,7 @@ namespace Figo.Client
             }
 
             this.Configuration.AccessToken = accessToken.AccessToken;
-            var transactionsApi = new TransactionsApi(this.Configuration);
+            var transactionsApi = new TransactionsApi(this.Configuration, this.Logger);
             return await transactionsApi
                          .GetTransactionAsync(transactionId)
                          .ConfigureAwait(false);

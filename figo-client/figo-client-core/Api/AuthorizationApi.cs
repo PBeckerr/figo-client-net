@@ -13,6 +13,7 @@ using System;
 using System.Threading.Tasks;
 using Figo.Client.Core.Client;
 using Figo.Client.Core.Model;
+using Microsoft.Extensions.Logging;
 
 namespace Figo.Client.Core.Api
 {
@@ -154,14 +155,14 @@ namespace Figo.Client.Core.Api
         ///     Initializes a new instance of the <see cref="AuthorizationApi" /> class.
         /// </summary>
         /// <returns></returns>
-        public AuthorizationApi(string basePath)
+        public AuthorizationApi(string basePath, ILogger logger = null)
         {
             this.Configuration = Core.Client.Configuration.MergeConfigurations(
                 GlobalConfiguration.Instance,
                 new Configuration {BasePath = basePath}
             );
-            this.Client = new ApiClient(this.Configuration.BasePath);
-            this.AsynchronousClient = new ApiClient(this.Configuration.BasePath);
+            this.Client = new ApiClient(this.Configuration.BasePath, logger);
+            this.AsynchronousClient = new ApiClient(this.Configuration.BasePath, logger);
             this.ExceptionFactory = Core.Client.Configuration.DefaultExceptionFactory;
         }
 
@@ -171,7 +172,7 @@ namespace Figo.Client.Core.Api
         /// </summary>
         /// <param name="configuration">An instance of Configuration</param>
         /// <returns></returns>
-        public AuthorizationApi(Configuration configuration)
+        public AuthorizationApi(Configuration configuration, ILogger logger = null)
         {
             if (configuration == null)
             {
@@ -182,8 +183,8 @@ namespace Figo.Client.Core.Api
                 GlobalConfiguration.Instance,
                 configuration
             );
-            this.Client = new ApiClient(this.Configuration.BasePath);
-            this.AsynchronousClient = new ApiClient(this.Configuration.BasePath);
+            this.Client = new ApiClient(this.Configuration.BasePath, logger);
+            this.AsynchronousClient = new ApiClient(this.Configuration.BasePath, logger);
             this.ExceptionFactory = Core.Client.Configuration.DefaultExceptionFactory;
         }
 

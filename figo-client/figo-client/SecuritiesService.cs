@@ -7,6 +7,7 @@ using Figo.Client.Core.Model;
 using Figo.Client.Models;
 using Figo.Client.Models.Filter;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Figo.Client
 {
@@ -16,7 +17,7 @@ namespace Figo.Client
         {
         }
 
-        public SecuritiesService(IConfiguration configuration) : base(configuration)
+        public SecuritiesService(IConfiguration configuration, ILogger logger) : base(configuration, logger)
         {
         }
 
@@ -57,7 +58,7 @@ namespace Figo.Client
             }
 
             this.Configuration.AccessToken = accessToken.AccessToken;
-            var securitiesApi = new SecuritiesApi(this.Configuration);
+            var securitiesApi = new SecuritiesApi(this.Configuration, this.Logger);
             return await securitiesApi.ListSecuritiesAsync(null, listFilter?.Count, listFilter?.Offset, listFilter?.Since?.ToString("O"), listFilter?.SinceType)
                                       .ConfigureAwait(false);
         }
@@ -105,7 +106,7 @@ namespace Figo.Client
             }
 
             this.Configuration.AccessToken = accessToken.AccessToken;
-            var securitiesApi = new SecuritiesApi(this.Configuration);
+            var securitiesApi = new SecuritiesApi(this.Configuration, this.Logger);
             return await securitiesApi
                          .ListSecuritiesOfAccountAsync(accountId,
                                                        listFilter?.Count,
@@ -141,7 +142,7 @@ namespace Figo.Client
             }
 
             this.Configuration.AccessToken = accessToken.AccessToken;
-            var securitiesApi = new SecuritiesApi(this.Configuration);
+            var securitiesApi = new SecuritiesApi(this.Configuration, this.Logger);
             return await securitiesApi.GetSecurityOfAccountAsync(accountId, securityId).ConfigureAwait(false);
         }
     }

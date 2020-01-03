@@ -6,6 +6,7 @@ using Figo.Client.Core.Api;
 using Figo.Client.Core.Client;
 using Figo.Client.Core.Model;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Figo.Client
 {
@@ -15,7 +16,7 @@ namespace Figo.Client
         {
         }
 
-        public InitiationService(IConfiguration configuration) : base(configuration)
+        public InitiationService(IConfiguration configuration, ILogger logger) : base(configuration, logger)
         {
         }
 
@@ -57,7 +58,7 @@ namespace Figo.Client
                 throw new ArgumentException("Value cannot be null or empty.", nameof(tanSchemeId));
             }
 
-            var init = new InitiationApi(this.Configuration);
+            var init = new InitiationApi(this.Configuration, this.Logger);
             var shieldToken = await init
                                     .CreatePaymentShieldTokenAsync(new ShieldTokenPISRequest(
                                                                        stateToken,
@@ -83,7 +84,7 @@ namespace Figo.Client
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(returnUrl));
             }
 
-            var init = new InitiationApi(this.Configuration);
+            var init = new InitiationApi(this.Configuration, this.Logger);
             var shieldToken = await init.CreateConnectShieldTokenAsync(new ShieldTokenRequest(stateToken, returnUrl)).ConfigureAwait(false);
 
             return new Uri(shieldToken.Location);
@@ -115,7 +116,7 @@ namespace Figo.Client
                 throw new ArgumentException("Value cannot be null or empty.", nameof(returnUrl));
             }
 
-            var init = new InitiationApi(this.Configuration);
+            var init = new InitiationApi(this.Configuration, this.Logger);
             var shieldToken = await init.CreateSyncShieldTokenAsync(new ShieldTokenSyncRequest(
                                                                         stateToken,
                                                                         returnUrl,

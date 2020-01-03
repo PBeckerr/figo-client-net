@@ -53,8 +53,7 @@ namespace Figo.Client.Core.Client
 
             if (IsCollection(value) && collectionFormat == "multi")
             {
-                var valueCollection = value as IEnumerable;
-                if (valueCollection != null)
+                if (value is IEnumerable valueCollection)
                 {
                     foreach (var item in valueCollection)
                     {

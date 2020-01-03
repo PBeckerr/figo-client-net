@@ -6,6 +6,7 @@ using Figo.Client.Core.Client;
 using Figo.Client.Core.Model;
 using Figo.Client.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Figo.Client
 {
@@ -15,7 +16,7 @@ namespace Figo.Client
         {
         }
 
-        public AccessTokenService(IConfiguration configuration) : base(configuration)
+        public AccessTokenService(IConfiguration configuration, ILogger logger) : base(configuration, logger)
         {
         }
 
@@ -34,7 +35,7 @@ namespace Figo.Client
 
             if (!existingToken.IsValid)
             {
-                var client = new AuthorizationApi(this.Configuration);
+                var client = new AuthorizationApi(this.Configuration, this.Logger);
                 var refreshRequest =
                     await client.RefreshAccessTokenAsync(new RefreshTokenRequest(RefreshTokenRequest.GrantTypeEnum.Refreshtoken, existingToken.RefreshToken))
                                 .ConfigureAwait(false);
@@ -64,7 +65,7 @@ namespace Figo.Client
                 throw new ArgumentException("Value cannot be null or empty.", nameof(redirectUrl));
             }
 
-            var client = new AuthorizationApi(this.Configuration);
+            var client = new AuthorizationApi(this.Configuration, this.Logger);
             var token = await client
                               .CreateAccessTokenAsync(new AuthorizationCodeRequest(
                                                           AuthorizationCodeRequest.GrantTypeEnum.Authorizationcode,

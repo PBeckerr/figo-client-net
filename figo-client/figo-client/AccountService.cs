@@ -6,6 +6,7 @@ using Figo.Client.Core.Client;
 using Figo.Client.Core.Model;
 using Figo.Client.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Figo.Client
 {
@@ -16,7 +17,7 @@ namespace Figo.Client
         {
         }
 
-        public AccountService(IConfiguration configuration) : base(configuration)
+        public AccountService(IConfiguration configuration, ILogger logger) : base(configuration, logger)
         {
         }
 
@@ -46,7 +47,7 @@ namespace Figo.Client
             }
 
             this.Configuration.AccessToken = accessToken.AccessToken;
-            var accountService = new AccountsApi(this.Configuration);
+            var accountService = new AccountsApi(this.Configuration, this.Logger);
             return await accountService.GetAccountBalanceAsync(accountId, cents).ConfigureAwait(false);
         }
 
@@ -69,7 +70,7 @@ namespace Figo.Client
             }
 
             this.Configuration.AccessToken = accessToken.AccessToken;
-            var accountService = new AccountsApi(this.Configuration);
+            var accountService = new AccountsApi(this.Configuration, this.Logger);
             return await accountService.ListAccountsAsync().ConfigureAwait(false);
         }
 
@@ -99,7 +100,7 @@ namespace Figo.Client
             }
 
             this.Configuration.AccessToken = accessToken.AccessToken;
-            var accountService = new AccountsApi(this.Configuration);
+            var accountService = new AccountsApi(this.Configuration, this.Logger);
             return await accountService.GetAccountAsync(accountId, cents).ConfigureAwait(false);
         }
     }

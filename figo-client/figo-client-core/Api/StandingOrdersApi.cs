@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Figo.Client.Core.Client;
 using Figo.Client.Core.Model;
+using Microsoft.Extensions.Logging;
 
 namespace Figo.Client.Core.Api
 {
@@ -267,14 +268,14 @@ namespace Figo.Client.Core.Api
         ///     Initializes a new instance of the <see cref="StandingOrdersApi" /> class.
         /// </summary>
         /// <returns></returns>
-        public StandingOrdersApi(string basePath)
+        public StandingOrdersApi(string basePath, ILogger logger = null)
         {
             this.Configuration = Core.Client.Configuration.MergeConfigurations(
                 GlobalConfiguration.Instance,
                 new Configuration {BasePath = basePath}
             );
-            this.Client = new ApiClient(this.Configuration.BasePath);
-            this.AsynchronousClient = new ApiClient(this.Configuration.BasePath);
+            this.Client = new ApiClient(this.Configuration.BasePath, logger);
+            this.AsynchronousClient = new ApiClient(this.Configuration.BasePath, logger);
             this.ExceptionFactory = Core.Client.Configuration.DefaultExceptionFactory;
         }
 
@@ -284,7 +285,7 @@ namespace Figo.Client.Core.Api
         /// </summary>
         /// <param name="configuration">An instance of Configuration</param>
         /// <returns></returns>
-        public StandingOrdersApi(Configuration configuration)
+        public StandingOrdersApi(Configuration configuration, ILogger logger = null)
         {
             if (configuration == null)
             {
@@ -295,8 +296,8 @@ namespace Figo.Client.Core.Api
                 GlobalConfiguration.Instance,
                 configuration
             );
-            this.Client = new ApiClient(this.Configuration.BasePath);
-            this.AsynchronousClient = new ApiClient(this.Configuration.BasePath);
+            this.Client = new ApiClient(this.Configuration.BasePath, logger);
+            this.AsynchronousClient = new ApiClient(this.Configuration.BasePath, logger);
             this.ExceptionFactory = Core.Client.Configuration.DefaultExceptionFactory;
         }
 

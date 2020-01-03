@@ -17,6 +17,7 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
@@ -151,6 +152,7 @@ namespace Figo.Client.Core.Client
     /// </summary>
     public class ApiClient : ISynchronousClient, IAsynchronousClient
     {
+        private readonly ILogger _logger;
         private readonly string _baseUrl;
 
         /// <summary>
@@ -175,6 +177,17 @@ namespace Figo.Client.Core.Client
 
             this._baseUrl = basePath;
         }
+        
+        public ApiClient(string basePath, ILogger logger)
+        {
+            if (string.IsNullOrEmpty(basePath))
+            {
+                throw new ArgumentException("basePath cannot be empty");
+            }
+
+            this._baseUrl = basePath;
+            this._logger = logger;
+        }
 
         /// <summary>
         ///     Allows for extending request processing for <see cref="ApiClient" /> generated code.
@@ -182,7 +195,6 @@ namespace Figo.Client.Core.Client
         /// <param name="request">The RestSharp request object</param>
         private void InterceptRequest(IRestRequest request)
         {
-            
         }
 
         /// <summary>
@@ -192,7 +204,6 @@ namespace Figo.Client.Core.Client
         /// <param name="response">The RestSharp response object</param>
         private void InterceptResponse(IRestRequest request, IRestResponse response)
         {
-            
         }
 
         /// <summary>
@@ -345,8 +356,7 @@ namespace Figo.Client.Core.Client
                 foreach (var fileParam in options.FileParameters)
                 {
                     var bytes = ClientUtils.ReadAsBytes(fileParam.Value);
-                    var fileStream = fileParam.Value as FileStream;
-                    if (fileStream != null)
+                    if (fileParam.Value is FileStream fileStream)
                     {
                         request.Files.Add(FileParameter.Create(fileParam.Key, bytes, Path.GetFileName(fileStream.Name)));
                     }
@@ -409,11 +419,10 @@ namespace Figo.Client.Core.Client
 
         private async Task<ApiResponse<T>> Exec<T>(RestRequest req, IReadableConfiguration configuration)
         {
-            var client = new RestClient(this._baseUrl);
+            var client = new InterceptedRestClient(this._baseUrl, this._logger);
 
             client.ClearHandlers();
-            var existingDeserializer = req.JsonSerializer as IDeserializer;
-            if (existingDeserializer != null)
+            if (req.JsonSerializer is IDeserializer existingDeserializer)
             {
                 client.AddHandler(existingDeserializer, "application/json", "text/json", "text/x-json", "text/javascript", "*+json");
             }

@@ -6,6 +6,7 @@ using Figo.Client.Core.Client;
 using Figo.Client.Core.Model;
 using Figo.Client.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Figo.Client
 {
@@ -15,7 +16,7 @@ namespace Figo.Client
         {
         }
 
-        public VerificationService(IConfiguration configuration) : base(configuration)
+        public VerificationService(IConfiguration configuration, ILogger logger) : base(configuration, logger)
         {
         }
 
@@ -46,7 +47,7 @@ namespace Figo.Client
             }
 
             this.Configuration.AccessToken = accessToken.AccessToken;
-            var api = new VerificationApi(this.Configuration);
+            var api = new VerificationApi(this.Configuration, this.Logger);
             return await api.GetPaymentReceiptAsync(paymentId).ConfigureAwait(false);
         }
     }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Figo.Client;
 using Figo.Client.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
@@ -19,12 +20,13 @@ namespace Tests
         public const string AuthCode = "";
         public const string ReturnUrl = "https://web.notexsting.com";
         public AccessTokenDto AccessToken;
-        public IConfiguration Config = TestHelper.GetIConfigurationRoot(TestContext.CurrentContext.TestDirectory);
+        private IConfiguration _configuration;
+        private ILogger _logger;
 
         [Test]
         public async Task Accounts()
         {
-            var accountApi = new AccountService(this.Config);
+            var accountApi = new AccountService(this._configuration, this._logger);
             var accounts = await accountApi.GetAllAsync(this.AccessToken);
 
             Assert.IsTrue(accounts.Accounts.Any());
@@ -43,7 +45,7 @@ namespace Tests
 
             if (!this.AccessToken.IsValid)
             {
-                var authService = new AccessTokenService(this.Config);
+                var authService = new AccessTokenService(this._configuration, this._logger);
                 this.AccessToken = (await authService.CheckAndRevalidateIfNeededAsync(this.AccessToken).ConfigureAwait(false)).token;
                 File.WriteAllText(path, JsonConvert.SerializeObject(this.AccessToken));
             }
@@ -57,7 +59,7 @@ namespace Tests
             //only do it if there is no accesstoken stored
             if (!File.Exists(path))
             {
-                var authService = new AccessTokenService(this.Config);
+                var authService = new AccessTokenService(this._configuration, this._logger);
                 this.AccessToken = await authService.LoginAsync(AuthCode, ReturnUrl).ConfigureAwait(false);
                 File.WriteAllText(path, JsonConvert.SerializeObject(this.AccessToken));
                 Assert.IsNotNull(this.AccessToken);
@@ -73,7 +75,7 @@ namespace Tests
         [Test]
         public async Task Securities()
         {
-            var accountApi = new SecuritiesService(this.Config);
+            var accountApi = new SecuritiesService(this._configuration, this._logger);
             var accounts = await accountApi.GetAllAsync(this.AccessToken).ConfigureAwait(false);
 
             Assert.IsTrue(accounts.Securities.Any());
@@ -83,10 +85,23 @@ namespace Tests
             }
         }
 
+        [SetUp]
+        public void Setup()
+        {
+            var configBuilder = new ConfigurationBuilder()
+                                .SetBasePath(TestContext.CurrentContext.TestDirectory)
+                                .AddJsonFile("appsettings.json");
+            IConfiguration config = configBuilder.Build();
+            this._configuration = config;
+            this._logger = LoggerFactory.Create(builder =>
+                                                    builder.AddConfiguration(config.GetSection("Logging")).AddConsole())
+                                        .CreateLogger("figo-test");
+        }
+
         [Test]
         public async Task ShieldToken()
         {
-            var init = new InitiationService(this.Config);
+            var init = new InitiationService(this._configuration, this._logger);
             var url = await init.GetRedirectUriForShieldTokenAsync(Guid.NewGuid().ToString(), ReturnUrl).ConfigureAwait(false);
 
             //TODO: Set path to your browser
@@ -97,7 +112,7 @@ namespace Tests
         [Test]
         public async Task StandingOrder()
         {
-            var accountApi = new StandingOrderService(this.Config);
+            var accountApi = new StandingOrderService(this._configuration, this._logger);
             var accounts = await accountApi.GetAllAsync(this.AccessToken).ConfigureAwait(false);
 
             Assert.IsNotNull(accounts);
@@ -106,7 +121,7 @@ namespace Tests
         [Test]
         public async Task Sync()
         {
-            var init = new InitiationService(this.Config);
+            var init = new InitiationService(this._configuration, this._logger);
             var url = await init.GetRedirectUriForSyncAccountsAsync(Guid.NewGuid().ToString(),
                                                                     ReturnUrl,
                                                                     new List<string>
@@ -121,7 +136,7 @@ namespace Tests
         [Test]
         public async Task Transactions()
         {
-            var accountApi = new TransactionsService(this.Config);
+            var accountApi = new TransactionsService(this._configuration, this._logger);
             var accounts = await accountApi.GetAllAsync(this.AccessToken).ConfigureAwait(false);
 
             Assert.IsTrue(accounts.Transactions.Any());

@@ -6,6 +6,7 @@ using Figo.Client.Core.Client;
 using Figo.Client.Core.Model;
 using Figo.Client.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Figo.Client
 {
@@ -15,7 +16,7 @@ namespace Figo.Client
         {
         }
 
-        public StandingOrderService(IConfiguration configuration) : base(configuration)
+        public StandingOrderService(IConfiguration configuration, ILogger logger) : base(configuration, logger)
         {
         }
 
@@ -50,7 +51,7 @@ namespace Figo.Client
             }
 
             this.Configuration.AccessToken = accessToken.AccessToken;
-            var standingOrdersApi = new StandingOrdersApi(this.Configuration);
+            var standingOrdersApi = new StandingOrdersApi(this.Configuration, this.Logger);
             return await standingOrdersApi
                          .GetStandingOrderOfAccountAsync(accountId, standingOrderId)
                          .ConfigureAwait(false);
@@ -83,7 +84,7 @@ namespace Figo.Client
             }
 
             this.Configuration.AccessToken = accessToken.AccessToken;
-            var standingOrdersApi = new StandingOrdersApi(this.Configuration);
+            var standingOrdersApi = new StandingOrdersApi(this.Configuration, this.Logger);
             return await standingOrdersApi
                          .ListStandingOrdersOfAccountAsync(accountId, cents).ConfigureAwait(false);
         }
@@ -107,7 +108,7 @@ namespace Figo.Client
             }
 
             this.Configuration.AccessToken = accessToken.AccessToken;
-            var standingOrdersApi = new StandingOrdersApi(this.Configuration);
+            var standingOrdersApi = new StandingOrdersApi(this.Configuration, this.Logger);
             return await standingOrdersApi.ListStandingOrdersAsync().ConfigureAwait(false);
         }
 
@@ -142,7 +143,7 @@ namespace Figo.Client
             }
 
             this.Configuration.AccessToken = accessToken.AccessToken;
-            var standingOrdersApi = new StandingOrdersApi(this.Configuration);
+            var standingOrdersApi = new StandingOrdersApi(this.Configuration, this.Logger);
             return await standingOrdersApi
                          .GetStandingOrderOfAccountAsync(accountId, standingOrderId)
                          .ConfigureAwait(false);
