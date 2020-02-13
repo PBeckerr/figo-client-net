@@ -101,7 +101,7 @@ namespace Figo.Client.Core.Model
         /// <param name="bankCode">Domestic bank code..</param>
         /// <param name="bankName">Name of the bank or financial provider..</param>
         /// <param name="booked">Indicates if the transaction has been settled..</param>
-        /// <param name="bookingDate">The date on which the transaction was booked..</param>
+        /// <param name="bookedAt">The date on which the transaction was booked..</param>
         /// <param name="bookingKey">*HBCI*: A key that indicates the purpose of a transaction..</param>
         /// <param name="bookingText">Booking text..</param>
         /// <param name="bic">The SWIFT Bank Identifier Code..</param>
@@ -128,12 +128,12 @@ namespace Figo.Client.Core.Model
         /// <param name="type">Transaction type..</param>
         /// <param name="valueDate">The date on which the transaction was settled..</param>
         public Transaction(string accountId = default, string accountNumber = default, TransactionAdditionalInfo additionalInfo = default,
-                           decimal amount = default, string bankCode = default, string bankName = default, bool booked = default, string bookingDate = default,
+                           decimal amount = default, string bankCode = default, string bankName = default, bool booked = default, string bookedAt = default,
                            string bookingKey = default, string bookingText = default, string bic = default, List<TransactionCategories> categories = default,
                            string createdAt = default, CurrencyEnum? currency = default, string endToEndReference = default, string iban = default,
                            string mandateReference = default, string modifiedAt = default, string name = default, string primaNotaNumber = default,
                            string purpose = default, string sepaPurposeCode = default, string sepaRemittanceInfo = default, string transactionId = default,
-                           int transactionCode = default, TypeEnum? type = default, string valueDate = default)
+                           int transactionCode = default, TypeEnum? type = default)
         {
             this.AccountId = accountId;
             this.AccountNumber = accountNumber;
@@ -142,7 +142,7 @@ namespace Figo.Client.Core.Model
             this.BankCode = bankCode;
             this.BankName = bankName;
             this.Booked = booked;
-            this.BookingDate = bookingDate;
+            this.BookedAt = bookedAt;
             this.BookingKey = bookingKey;
             this.BookingText = bookingText;
             this.Bic = bic;
@@ -161,7 +161,6 @@ namespace Figo.Client.Core.Model
             this.TransactionId = transactionId;
             this.TransactionCode = transactionCode;
             this.Type = type;
-            this.ValueDate = valueDate;
         }
 
         /// <summary>
@@ -191,6 +190,9 @@ namespace Figo.Client.Core.Model
         /// <value>Domestic account identifier.</value>
         [DataMember(Name = "account_number", EmitDefaultValue = false)]
         public string AccountNumber { get; set; }
+        
+        [DataMember(Name = "settled_at", EmitDefaultValue = false)]
+        public string SettledAt { get; set; }
 
         /// <summary>
         ///     Gets or Sets AdditionalInfo
@@ -230,8 +232,8 @@ namespace Figo.Client.Core.Model
         ///     The date on which the transaction was booked.
         /// </summary>
         /// <value>The date on which the transaction was booked.</value>
-        [DataMember(Name = "booking_date", EmitDefaultValue = false)]
-        public string BookingDate { get; set; }
+        [DataMember(Name = "booked_at", EmitDefaultValue = false)]
+        public string BookedAt { get; set; }
 
         /// <summary>
         ///     *HBCI*: A key that indicates the purpose of a transaction.
@@ -345,13 +347,6 @@ namespace Figo.Client.Core.Model
         public int TransactionCode { get; set; }
 
         /// <summary>
-        ///     The date on which the transaction was settled.
-        /// </summary>
-        /// <value>The date on which the transaction was settled.</value>
-        [DataMember(Name = "value_date", EmitDefaultValue = false)]
-        public string ValueDate { get; set; }
-
-        /// <summary>
         ///     Returns true if Transaction instances are equal
         /// </summary>
         /// <param name="input">Instance of Transaction to be compared</param>
@@ -398,9 +393,9 @@ namespace Figo.Client.Core.Model
                     this.Booked.Equals(input.Booked)
                 ) &&
                 (
-                    this.BookingDate == input.BookingDate ||
-                    this.BookingDate != null &&
-                    this.BookingDate.Equals(input.BookingDate)
+                    this.BookedAt == input.BookedAt ||
+                    this.BookedAt != null &&
+                    this.BookedAt.Equals(input.BookedAt)
                 ) &&
                 (
                     this.BookingKey == input.BookingKey ||
@@ -489,11 +484,6 @@ namespace Figo.Client.Core.Model
                 (
                     this.Type == input.Type ||
                     this.Type.Equals(input.Type)
-                ) &&
-                (
-                    this.ValueDate == input.ValueDate ||
-                    this.ValueDate != null &&
-                    this.ValueDate.Equals(input.ValueDate)
                 );
         }
 
@@ -522,7 +512,7 @@ namespace Figo.Client.Core.Model
             sb.Append("  BankCode: ").Append(this.BankCode).Append("\n");
             sb.Append("  BankName: ").Append(this.BankName).Append("\n");
             sb.Append("  Booked: ").Append(this.Booked).Append("\n");
-            sb.Append("  BookingDate: ").Append(this.BookingDate).Append("\n");
+            sb.Append("  BookingDate: ").Append(this.BookedAt).Append("\n");
             sb.Append("  BookingKey: ").Append(this.BookingKey).Append("\n");
             sb.Append("  BookingText: ").Append(this.BookingText).Append("\n");
             sb.Append("  Bic: ").Append(this.Bic).Append("\n");
@@ -541,7 +531,6 @@ namespace Figo.Client.Core.Model
             sb.Append("  TransactionId: ").Append(this.TransactionId).Append("\n");
             sb.Append("  TransactionCode: ").Append(this.TransactionCode).Append("\n");
             sb.Append("  Type: ").Append(this.Type).Append("\n");
-            sb.Append("  ValueDate: ").Append(this.ValueDate).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -601,9 +590,9 @@ namespace Figo.Client.Core.Model
                 }
 
                 hashCode = hashCode * 59 + this.Booked.GetHashCode();
-                if (this.BookingDate != null)
+                if (this.BookedAt != null)
                 {
-                    hashCode = hashCode * 59 + this.BookingDate.GetHashCode();
+                    hashCode = hashCode * 59 + this.BookedAt.GetHashCode();
                 }
 
                 if (this.BookingKey != null)
@@ -684,10 +673,6 @@ namespace Figo.Client.Core.Model
 
                 hashCode = hashCode * 59 + this.TransactionCode.GetHashCode();
                 hashCode = hashCode * 59 + this.Type.GetHashCode();
-                if (this.ValueDate != null)
-                {
-                    hashCode = hashCode * 59 + this.ValueDate.GetHashCode();
-                }
 
                 return hashCode;
             }
