@@ -27,7 +27,6 @@ namespace Figo.Client
         /// <param name="redirectUri"></param>
         /// <param name="accountId"></param>
         /// <param name="payment"></param>
-        /// <param name="tanSchemeId"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
@@ -35,8 +34,7 @@ namespace Figo.Client
             string stateToken,
             string redirectUri,
             string accountId,
-            Payment payment,
-            string tanSchemeId)
+            WidgetPayment payment)
         {
             if (payment == null)
             {
@@ -53,19 +51,16 @@ namespace Figo.Client
                 throw new ArgumentException("Value cannot be null or empty.", nameof(accountId));
             }
 
-            if (string.IsNullOrEmpty(tanSchemeId))
-            {
-                throw new ArgumentException("Value cannot be null or empty.", nameof(tanSchemeId));
-            }
-
             var init = new InitiationApi(this.Configuration, this.Logger);
             var shieldToken = await init
-                                    .CreatePaymentShieldTokenAsync(new ShieldTokenPISRequest(
-                                                                       stateToken,
-                                                                       redirectUri,
-                                                                       accountId,
-                                                                       payment,
-                                                                       tanSchemeId)).ConfigureAwait(false);
+                                    .CreateOnetimePaymentAsync(new WidgetPIS()
+                                    {
+                                        Account = accountId,
+                                        Language = "de",
+                                        Payment = payment,
+                                        Readout = new List<string>(){"TRANSACTIONS"},
+                                        RedirectUri = redirectUri
+                                    }).ConfigureAwait(false);
 
             return new Uri(shieldToken.Location);
         }
