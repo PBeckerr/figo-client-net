@@ -140,34 +140,6 @@ namespace Figo.Client.Core.Api
     public partial class WidgetPIS :  IEquatable<WidgetPIS>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="WidgetPIS" /> class.
-        /// </summary>
-        [JsonConstructor]
-        protected WidgetPIS() { }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WidgetPIS" /> class.
-        /// </summary>
-        /// <param name="state">An opaque value provided by the partner in order to maintain state between this request and the callback. The widget UI includes this value when redirecting the user-agent back to the partner..</param>
-        /// <param name="redirectUri">After completing its interaction with the user, the Widget UI directs the user&#39;s user-agent to this redirection endpoint. The callback includes &#x60;state&#x60; and &#x60;code&#x60; (authorization code) as query parameters. (required).</param>
-        /// <param name="language">Two-letter language code..</param>
-        /// <param name="providerId">Used to skip the bank search and selection, if not given the user is able to search and select a financial provider. See [Catalog](#operation/listCatalogClientAuth) on how to optain a &#x60;provider_id&#x60;..</param>
-        /// <param name="account">account.</param>
-        /// <param name="payment">payment (required).</param>
-        /// <param name="readout">Defines entries that shall be available for a read out..</param>
-        public WidgetPIS(string state = default(string), string redirectUri = default(string), string language = default(string), Guid providerId = default(Guid), string account = default(string), WidgetPayment payment = default(WidgetPayment), List<string> readout = default(List<string>))
-        {
-            // to ensure "redirectUri" is required (not null)
-            this.RedirectUri = redirectUri ?? throw new ArgumentNullException("redirectUri is a required property for WidgetPIS and cannot be null");
-            // to ensure "payment" is required (not null)
-            this.Payment = payment ?? throw new ArgumentNullException("payment is a required property for WidgetPIS and cannot be null");
-            this.State = state;
-            this.Language = language;
-            this.ProviderId = providerId;
-            this.Account = account;
-            this.Readout = readout;
-        }
-        
-        /// <summary>
         /// An opaque value provided by the partner in order to maintain state between this request and the callback. The widget UI includes this value when redirecting the user-agent back to the partner.
         /// </summary>
         /// <value>An opaque value provided by the partner in order to maintain state between this request and the callback. The widget UI includes this value when redirecting the user-agent back to the partner.</value>
@@ -179,6 +151,7 @@ namespace Figo.Client.Core.Api
         /// </summary>
         /// <value>After completing its interaction with the user, the Widget UI directs the user&#39;s user-agent to this redirection endpoint. The callback includes &#x60;state&#x60; and &#x60;code&#x60; (authorization code) as query parameters.</value>
         [DataMember(Name="redirect_uri", EmitDefaultValue=false)]
+        [Required]
         public string RedirectUri { get; set; }
 
         /// <summary>
@@ -205,6 +178,7 @@ namespace Figo.Client.Core.Api
         /// Gets or Sets Payment
         /// </summary>
         [DataMember(Name="payment", EmitDefaultValue=false)]
+        [Required]
         public WidgetPayment Payment { get; set; }
 
         /// <summary>
@@ -345,37 +319,11 @@ namespace Figo.Client.Core.Api
     public partial class WidgetPayment :  IEquatable<WidgetPayment>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="WidgetPayment" /> class.
-        /// </summary>
-        [JsonConstructorAttribute]
-        protected WidgetPayment() { }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WidgetPayment" /> class.
-        /// </summary>
-        /// <param name="amount">Monetary value. (required).</param>
-        /// <param name="iban">The IBAN of the recipient. (required).</param>
-        /// <param name="recipient">Name of the recipient. (required).</param>
-        /// <param name="purpose">The purpose of the payment. (required).</param>
-        /// <param name="sepaPurposeCode">SEPA category purpose code classifying the transfer as defined in [ISO 20022](https://www.iso20022.org/external_code_list.page) (e.g. &#x60;SALA&#x60; for salary payment). .</param>
-        /// <param name="endToEndReference">A reference of the creditor to be passed along with the payment (e.g. a customer number)..</param>
-        public WidgetPayment(decimal amount = default(decimal), string iban = default(string), string recipient = default(string), string purpose = default(string), string sepaPurposeCode = default(string), string endToEndReference = default(string))
-        {
-            this.Amount = amount;
-            // to ensure "iban" is required (not null)
-            this.Iban = iban ?? throw new ArgumentNullException("iban is a required property for WidgetPayment and cannot be null");
-            // to ensure "recipient" is required (not null)
-            this.Recipient = recipient ?? throw new ArgumentNullException("recipient is a required property for WidgetPayment and cannot be null");
-            // to ensure "purpose" is required (not null)
-            this.Purpose = purpose ?? throw new ArgumentNullException("purpose is a required property for WidgetPayment and cannot be null");
-            this.SepaPurposeCode = sepaPurposeCode;
-            this.EndToEndReference = endToEndReference;
-        }
-        
-        /// <summary>
         /// Monetary value.
         /// </summary>
         /// <value>Monetary value.</value>
         [DataMember(Name="amount", EmitDefaultValue=false)]
+        [Required]
         public decimal Amount { get; set; }
 
         /// <summary>
@@ -383,6 +331,7 @@ namespace Figo.Client.Core.Api
         /// </summary>
         /// <value>The IBAN of the recipient.</value>
         [DataMember(Name="iban", EmitDefaultValue=false)]
+        [Required]
         public string Iban { get; set; }
 
         /// <summary>
@@ -390,6 +339,7 @@ namespace Figo.Client.Core.Api
         /// </summary>
         /// <value>Name of the recipient.</value>
         [DataMember(Name="recipient", EmitDefaultValue=false)]
+        [Required]
         public string Recipient { get; set; }
 
         /// <summary>
@@ -397,6 +347,7 @@ namespace Figo.Client.Core.Api
         /// </summary>
         /// <value>The purpose of the payment.</value>
         [DataMember(Name="purpose", EmitDefaultValue=false)]
+        [Required]
         public string Purpose { get; set; }
 
         /// <summary>
