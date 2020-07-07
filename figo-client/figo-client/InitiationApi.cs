@@ -53,8 +53,9 @@ namespace Figo.Client
 
             var init = new InitiationApi(this.Configuration, this.Logger);
             var shieldToken = await init
-                                    .CreateOnetimePaymentAsync(new WidgetPIS()
+                                    .CreateOnetimePaymentAsync(new WidgetPIS
                                     {
+                                        State = stateToken,
                                         Account = accountId,
                                         Language = "de",
                                         Payment = payment,
