@@ -49,13 +49,11 @@ namespace Figo.Client.Core.Model
         /// <param name="accountId">The source account of the payment. (required).</param>
         /// <param name="payment">payment (required).</param>
         /// <param name="tanSchemeId">The TAN scheme to use to issue the payment. (required).</param>
-        public ShieldTokenPISRequest(string state = default, string redirectUri = default, string accountId = default, Payment payment = default,
-                                     string tanSchemeId = default)
+        public ShieldTokenPISRequest(string state = default, string redirectUri = default, string accountId = default, Payment payment = default)
         {
             this.RedirectUri = redirectUri ?? throw new InvalidDataException("redirectUri is a required property for ShieldTokenPISRequest and cannot be null");
             this.AccountId = accountId ?? throw new InvalidDataException("accountId is a required property for ShieldTokenPISRequest and cannot be null");
             this.Payment = payment ?? throw new InvalidDataException("payment is a required property for ShieldTokenPISRequest and cannot be null");
-            this.TanSchemeId = tanSchemeId ?? throw new InvalidDataException("tanSchemeId is a required property for ShieldTokenPISRequest and cannot be null");
 
             this.State = state;
         }
@@ -98,13 +96,6 @@ namespace Figo.Client.Core.Model
         public Payment Payment { get; set; }
 
         /// <summary>
-        ///     The TAN scheme to use to issue the payment.
-        /// </summary>
-        /// <value>The TAN scheme to use to issue the payment.</value>
-        [DataMember(Name = "tan_scheme_id", EmitDefaultValue = false)]
-        public string TanSchemeId { get; set; }
-
-        /// <summary>
         ///     Returns true if ShieldTokenPISRequest instances are equal
         /// </summary>
         /// <param name="input">Instance of ShieldTokenPISRequest to be compared</param>
@@ -136,11 +127,6 @@ namespace Figo.Client.Core.Model
                     this.Payment == input.Payment ||
                     this.Payment != null &&
                     this.Payment.Equals(input.Payment)
-                ) &&
-                (
-                    this.TanSchemeId == input.TanSchemeId ||
-                    this.TanSchemeId != null &&
-                    this.TanSchemeId.Equals(input.TanSchemeId)
                 );
         }
 
@@ -157,13 +143,6 @@ namespace Figo.Client.Core.Model
             {
                 yield return new ValidationResult("Invalid value for AccountId, must match a pattern of " + regexAccountId, new[] {"AccountId"});
             }
-
-            // TanSchemeId (string) pattern
-            var regexTanSchemeId = new Regex(@"^M[1-9]\\d*\\.[1-9]\\d*$", RegexOptions.CultureInvariant);
-            if (false == regexTanSchemeId.Match(this.TanSchemeId).Success)
-            {
-                yield return new ValidationResult("Invalid value for TanSchemeId, must match a pattern of " + regexTanSchemeId, new[] {"TanSchemeId"});
-            }
         }
 
         /// <summary>
@@ -178,7 +157,6 @@ namespace Figo.Client.Core.Model
             sb.Append("  RedirectUri: ").Append(this.RedirectUri).Append("\n");
             sb.Append("  AccountId: ").Append(this.AccountId).Append("\n");
             sb.Append("  Payment: ").Append(this.Payment).Append("\n");
-            sb.Append("  TanSchemeId: ").Append(this.TanSchemeId).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -229,11 +207,6 @@ namespace Figo.Client.Core.Model
                 if (this.Payment != null)
                 {
                     hashCode = hashCode * 59 + this.Payment.GetHashCode();
-                }
-
-                if (this.TanSchemeId != null)
-                {
-                    hashCode = hashCode * 59 + this.TanSchemeId.GetHashCode();
                 }
 
                 return hashCode;
