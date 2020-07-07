@@ -53,13 +53,8 @@ namespace Figo.Client
 
             var init = new InitiationApi(this.Configuration, this.Logger);
             var shieldToken = await init
-                                    .CreatePaymentShieldTokenAsync(new ShieldTokenPISRequest()
-                                    {
-                                        State = stateToken,
-                                        RedirectUri = redirectUri,
-                                        AccountId = accountId,
-                                        Payment = new Payment(new MoneyAmount(Currency.EUR, payment.Amount), null, payment.Iban, payment.Purpose, payment.Recipient)
-                                    }).ConfigureAwait(false);
+                                    .CreatePaymentShieldTokenAsync(new ShieldTokenPISRequest(stateToken, redirectUri, accountId, new Payment(new MoneyAmount(Currency.EUR, payment.Amount), null, payment.Iban, payment.Purpose, payment.Recipient)))
+                                    .ConfigureAwait(false);
 
             return new Uri(shieldToken.Location);
         }
