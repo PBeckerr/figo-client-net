@@ -201,7 +201,7 @@ namespace Figo.Client.Core.Client
         /// <returns>Casted object</returns>
         public static dynamic ConvertType(dynamic fromObject, Type toObject)
         {
-            return Convert.ChangeType(fromObject, toObject);
+            return Convert.ChangeType((object)fromObject, toObject);
         }
 
         /// <summary>
