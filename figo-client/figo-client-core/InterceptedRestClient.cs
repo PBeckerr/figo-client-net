@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RestSharp;
@@ -15,82 +13,6 @@ namespace Figo.Client.Core
         public InterceptedRestClient(string baseUrl, ILogger logger = null) : base(baseUrl)
         {
             this._logger = logger;
-        }
-
-        public override IRestResponse Execute(IRestRequest request)
-        {
-            IRestResponse response = null;
-            var stopWatch = new Stopwatch();
-
-            try
-            {
-                stopWatch.Start();
-                response = base.Execute(request);
-                stopWatch.Stop();
-
-                return response;
-            }
-            finally
-            {
-                this.LogRequest(request, response, stopWatch.ElapsedMilliseconds);
-            }
-        }
-
-        public override IRestResponse<T> Execute<T>(IRestRequest request)
-        {
-            IRestResponse<T> response = null;
-            var stopWatch = new Stopwatch();
-
-            try
-            {
-                stopWatch.Start();
-                response = base.Execute<T>(request);
-                stopWatch.Stop();
-
-                return response;
-            }
-            finally
-            {
-                this.LogRequest(request, response, stopWatch.ElapsedMilliseconds);
-            }
-        }
-
-        public override async Task<IRestResponse<T>> ExecuteTaskAsync<T>(IRestRequest request)
-        {
-            IRestResponse<T> response = null;
-            var stopWatch = new Stopwatch();
-
-            try
-            {
-                stopWatch.Start();
-                response = await base.ExecuteTaskAsync<T>(request);
-                stopWatch.Stop();
-
-                return response;
-            }
-            finally
-            {
-                this.LogRequest(request, response, stopWatch.ElapsedMilliseconds);
-            }
-        }
-
-        public override async Task<IRestResponse> ExecuteTaskAsync(IRestRequest request)
-        {
-            IRestResponse response = null;
-            var stopWatch = new Stopwatch();
-
-            try
-            {
-                stopWatch.Start();
-                response = await base.ExecuteTaskAsync(request);
-                stopWatch.Stop();
-
-                return response;
-            }
-            finally
-            {
-                this.LogRequest(request, response, stopWatch.ElapsedMilliseconds);
-            }
         }
 
         private void LogRequest(IRestRequest request, IRestResponse response, long durationMs)
