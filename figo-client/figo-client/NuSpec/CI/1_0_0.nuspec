@@ -12,7 +12,7 @@
 
     <dependencies>
       <dependency id="Microsoft.Extensions.Configuration" version="2.2.0" />
-      <dependency id="Figo.Client.Core" version="1.0.14" />
+      <dependency id="Figo.Client.Core" version="1.0.22" />
     </dependencies>
     <references>
       <group>
