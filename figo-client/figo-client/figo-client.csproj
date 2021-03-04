@@ -5,6 +5,7 @@
     <RootNamespace>Figo.Client</RootNamespace>
     <AssemblyName>Figo.Client</AssemblyName>
      <LangVersion>7.3</LangVersion>
+      <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,7 +17,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\figo-client-core\figo-client-core.csproj" />
+    <ProjectReference Include="..\figo-client-core\figo-client-core.csproj">
+        <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+<!--        <IncludeAssets>Figo.Client.Core.dll</IncludeAssets>-->
+    </ProjectReference>
   </ItemGroup>
+
+    <!-- added this section -->
+    <Target DependsOnTargets="ResolveReferences" Name="CopyProjectReferencesToPackage">
+        <ItemGroup>
+            <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))"/>
+        </ItemGroup>
+    </Target>
+
 
 </Project>
