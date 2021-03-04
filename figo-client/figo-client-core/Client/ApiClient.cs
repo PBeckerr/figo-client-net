@@ -420,20 +420,6 @@ namespace Figo.Client.Core.Client
         private async Task<ApiResponse<T>> Exec<T>(RestRequest req, IReadableConfiguration configuration)
         {
             var client = new InterceptedRestClient(this._baseUrl, this._logger);
-
-            client.ClearHandlers();
-            if (req.JsonSerializer is IDeserializer existingDeserializer)
-            {
-                client.AddHandler(existingDeserializer, "application/json", "text/json", "text/x-json", "text/javascript", "*+json");
-            }
-            else
-            {
-                var codec = new CustomJsonCodec(configuration);
-                client.AddHandler(codec, "application/json", "text/json", "text/x-json", "text/javascript", "*+json");
-            }
-
-            client.AddHandler(new XmlDeserializer(), "application/xml", "text/xml", "*+xml", "*");
-
             client.Timeout = configuration.Timeout;
 
             if (configuration.UserAgent != null)
