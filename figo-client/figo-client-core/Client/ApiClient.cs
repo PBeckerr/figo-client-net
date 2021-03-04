@@ -442,7 +442,7 @@ namespace Figo.Client.Core.Client
             }
 
             this.InterceptRequest(req);
-            var response = await client.ExecuteTaskAsync<T>(req).ConfigureAwait(false);
+            var response = await client.ExecuteAsync<T>(req).ConfigureAwait(false);
             this.InterceptResponse(req, response);
 
             var result = this.toApiResponse(response);
